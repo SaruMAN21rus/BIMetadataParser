@@ -1,5 +1,3 @@
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,32 +6,44 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import au.com.bytecode.opencsv.CSVWriter;
-
 
 public class SAXPars extends DefaultHandler {
 
-	PhysicalTable table = new PhysicalTable();
-	boolean isExpression = false;
-	String expression = "";
-	String expressionColumn = "";
-	List<String[]> metadataList = new ArrayList<>();
+	private boolean isExpression = false;
+	private String expression = "";
+	private List<String[]> metadataList = new ArrayList<>();
+	private String[] columnNames;
+	private List<String> tags;
+	
+	public SAXPars(String[] columnNames, List<String> tags) {
+		super();
+		this.columnNames = columnNames;
+		this.tags = tags;
+	}
+	
+	public List<String[]> getMetadata() {
+		return metadataList;
+	}
 	
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		expressionColumn = qName;
-		if ("Expression".equals(qName)) {
-			isExpression = true;
-		} else if (isExpression) {
-			expression += attributes.getValue("name");
+		if (tags == null || tags.contains(qName)) {
+			if ("Expression".equals(qName)) {
+				isExpression = true;
+			} else if (isExpression) {
+				expression += attributes.getValue("name");
+			} else {
+				String[] metadata = new String[columnNames.length];
+				for (int i = 0; i < columnNames.length; i++) {
+					if ("qName".equals(columnNames[i]))
+						metadata[i] = qName;
+					else
+						metadata[i] = attributes.getValue(columnNames[i]);
+				}
+				metadataList.add(metadata);
+			}
 		}
-		String[] metadata = new String[4];
-		metadata[0] = attributes.getValue("xlink:href");
-		metadata[1] = attributes.getValue("qualifiedName");
-		metadata[2] = attributes.getValue("name");
-		metadata[3] = qName;
-		metadataList.add(metadata);
 		/*switch (qName) {
 		case "RefPresentationColumn":
 			metadata.setType("PresentationColumn");
@@ -117,7 +127,22 @@ public class SAXPars extends DefaultHandler {
 			throws SAXException {
 		if ("Expression".equals(qName)) {
 			isExpression = false;
-			System.out.println(StringUtils.trim(expression).replaceAll("\n", " ").replaceAll(" +", " "));
+			String exp = StringUtils.trim(expression).replaceAll("\n", " ").replaceAll(" +", " ");
+			String[] metadata = new String[columnNames.length];
+			for (int i = 0; i < columnNames.length; i++) {
+				if ("qName".equals(columnNames[i]))
+					metadata[i] = "Expression";
+				if ("name".equals(columnNames[i]))
+					metadata[i] = exp;
+			}
+			metadataList.add(metadata);
+		} else {
+			String[] metadata = new String[columnNames.length];
+			for (int i = 0; i < columnNames.length; i++) {
+				if ("qName".equals(columnNames[i]))
+					metadata[i] = qName;
+			}
+			metadataList.add(metadata);
 		}
 		/*switch (qName) {
 		case "RefPresentationColumn":
@@ -163,7 +188,7 @@ public class SAXPars extends DefaultHandler {
 
 			break;
 		case "RefLogicalForeignKey":
-
+	
 			break;
 		case "RefInitBlock":
 
@@ -185,13 +210,6 @@ public class SAXPars extends DefaultHandler {
 	
 	@Override
 	public void endDocument() throws SAXException {
-		CSVWriter writer;
-		try {
-			writer = new CSVWriter(new FileWriter("NameIndex.csv"), '|');
-			writer.writeAll(metadataList);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	}
 }

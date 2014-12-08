@@ -4,7 +4,7 @@ public enum TypeEnum {
 	RefPresentationColumn,
 	RefLogicalColumn,
 	RefPresentationCatalog,
-	RefPhysicalColumn,
+	//RefPhysicalColumn,
 	RefLogicalTableSource,
 	RefLogicalTable,
 	RefPhysicalTable,
