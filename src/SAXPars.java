@@ -14,6 +14,7 @@ public class SAXPars extends DefaultHandler {
 	private List<String[]> metadataList = new ArrayList<>();
 	private String[] columnNames;
 	private List<String> tags;
+	private boolean isRelatedObjects = false;
 	
 	public SAXPars(String[] columnNames, List<String> tags) {
 		super();
@@ -33,7 +34,9 @@ public class SAXPars extends DefaultHandler {
 				isExpression = true;
 			} else if (isExpression) {
 				expression += attributes.getValue("name");
-			} else {
+			} else if ("RelatedObjects".equals(qName)) {
+				isRelatedObjects = true;
+			} else if (!isRelatedObjects) {
 				String[] metadata = new String[columnNames.length];
 				for (int i = 0; i < columnNames.length; i++) {
 					if ("qName".equals(columnNames[i]))
@@ -136,14 +139,16 @@ public class SAXPars extends DefaultHandler {
 					metadata[i] = exp;
 			}
 			metadataList.add(metadata);
-		} else {
+		} else if (!isRelatedObjects) {
 			String[] metadata = new String[columnNames.length];
 			for (int i = 0; i < columnNames.length; i++) {
 				if ("qName".equals(columnNames[i]))
 					metadata[i] = qName;
 			}
 			metadataList.add(metadata);
-		}
+		} else if ("RelatedObjects".equals(qName)){
+			isRelatedObjects = false;
+		} 
 		/*switch (qName) {
 		case "RefPresentationColumn":
 

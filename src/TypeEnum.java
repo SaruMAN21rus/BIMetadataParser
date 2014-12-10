@@ -1,9 +1,9 @@
 
 public enum TypeEnum {
 
-	RefPresentationColumn,
-	RefLogicalColumn,
-	RefPresentationCatalog,
+	//RefPresentationColumn,
+	//RefLogicalColumn,
+	//RefPresentationCatalog,
 	//RefPhysicalColumn,
 	RefLogicalTableSource,
 	RefLogicalTable,
