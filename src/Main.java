@@ -28,6 +28,17 @@ public class Main {
 		List<String[]> logicalColumnList = new ArrayList<>();
 		List<String[]> presentationColumnList = new ArrayList<>();
 		List<String[]> logicalTableSourceList = new ArrayList<>();
+		List<String[]> logicalTableList = new ArrayList<>();
+		List<String[]> physicalTableList = new ArrayList<>();
+		List<String[]> logicalLevelList = new ArrayList<>();
+		List<String[]> logicalKeyList = new ArrayList<>();
+		List<String[]> dimensionList = new ArrayList<>();
+		List<String[]> physicalKeyList = new ArrayList<>();
+		List<String[]> physicalComplexJoinList = new ArrayList<>();
+		List<String[]> physicalForeignKeyList = new ArrayList<>();
+		List<String[]> logicalForeignKeyList = new ArrayList<>();
+		List<String[]> logicalComplexJoinList = new ArrayList<>();
+		List<String[]> presentationTableList = new ArrayList<>();
 		for (String[] metadata : metadataList) {
 			if (StringUtils.isNotBlank(metadata[3])) {
 				if ("RefPhysicalColumn".equalsIgnoreCase(metadata[4])) {
@@ -39,7 +50,7 @@ public class Main {
 									"isup_super_cube")), saxp);
 					
 					
-					physicalColumnList.add(concateArray(saxp.getMetadata()));
+					physicalColumnList.addAll(concateArray(saxp.getMetadata()));
 				}
 				if ("RefLogicalColumn".equalsIgnoreCase(metadata[4])) {
 					String[] col = { "id", "name", "dataType", "nullable",
@@ -48,7 +59,7 @@ public class Main {
 					parser.parse(
 							new File(metadata[3].replaceFirst(".",
 									"isup_super_cube")), saxp);
-					logicalColumnList.add(concateArray(saxp.getMetadata()));
+					logicalColumnList.addAll(concateArray(saxp.getMetadata()));
 				}
 				if ("RefPresentationColumn".equalsIgnoreCase(metadata[4])) {
 					String[] col = { "id", "name", "qName" };
@@ -56,7 +67,7 @@ public class Main {
 					parser.parse(
 							new File(metadata[3].replaceFirst(".",
 									"isup_super_cube")), saxp);
-					presentationColumnList.add(concateArray(saxp.getMetadata()));
+					presentationColumnList.addAll(concateArray(saxp.getMetadata()));
 				}
 				if ("RefLogicalTableSource".equalsIgnoreCase(metadata[4])) {
 					String[] col = { "id", "name", "type", "qName" };
@@ -64,7 +75,95 @@ public class Main {
 					parser.parse(
 							new File(metadata[3].replaceFirst(".",
 									"isup_super_cube")), saxp);
-					logicalTableSourceList.add(concateArray(saxp.getMetadata()));
+					logicalTableSourceList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefLogicalTable".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "primary", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					logicalTableList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefPhysicalTable".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					physicalTableList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefLogicalLevel".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "primary", "chronologicalKey", "grandTotal", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					logicalLevelList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefLogicalKey".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "primary", "chronologicalKey", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					logicalKeyList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefDimension".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "timeDimension", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					dimensionList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefPhysicalKey".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "primary", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					physicalKeyList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefPhysicalComplexJoin".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					physicalComplexJoinList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefPhysicalForeignKey".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					physicalForeignKeyList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefLogicalForeignKey".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					logicalForeignKeyList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefLogicalComplexJoin".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "type", "driving", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					logicalComplexJoinList.addAll(concateArray(saxp.getMetadata()));
+				}
+				if ("RefPresentationTable".equalsIgnoreCase(metadata[4])) {
+					String[] col = { "id", "name", "qName" };
+					saxp = new SAXPars(col, null);
+					parser.parse(
+							new File(metadata[3].replaceFirst(".",
+									"isup_super_cube")), saxp);
+					presentationTableList.addAll(concateArray(saxp.getMetadata()));
 				}
 			}
 		}
@@ -73,6 +172,17 @@ public class Main {
 		printToCSV(logicalColumnList, "LogicalColumns.csv");
 		printToCSV(presentationColumnList, "PresentationColumns.csv");
 		printToCSV(logicalTableSourceList, "LogicalTableSource.csv");
+		printToCSV(logicalTableList, "LogicalTables.csv");
+		printToCSV(physicalTableList, "PhysicalTables.csv");
+		printToCSV(logicalLevelList, "LogicalLevels.csv");
+		printToCSV(logicalKeyList, "LogicalKeys.csv");
+		printToCSV(dimensionList, "Dimensions.csv");
+		printToCSV(physicalKeyList, "physicalKeyList.csv");
+		printToCSV(physicalComplexJoinList, "physicalComplexJoinList.csv");
+		printToCSV(physicalForeignKeyList, "physicalForeignKeyList.csv");
+		printToCSV(logicalForeignKeyList, "logicalForeignKeyList.csv");
+		printToCSV(logicalComplexJoinList, "logicalComplexJoinList.csv");
+		printToCSV(presentationTableList, "presentationTableList.csv");
 	}
 	
 	private static void printToCSV(List<String[]> list, String fileName) {
@@ -86,11 +196,27 @@ public class Main {
 		}
 	}
 	
-	private static String[] concateArray(List<String[]> list) {
-		String[] result = list.get(0);
-		list.remove(0);
+	private static List<String[]> concateArray(List<String[]> list) {
+		List<String[]> result = new ArrayList<>();
+		List<String[]> firstCols = new ArrayList<>();
+		String currentQName = "";
 		for (String[] str : list) {
-			result = ArrayUtils.addAll(result, str);
+			if (str[str.length - 1].equals(currentQName)) {
+				firstCols.remove(firstCols.size() - 1);
+				if (firstCols.size() > 0) {
+					String[] b = firstCols.get(firstCols.size() - 1);
+					currentQName = b[b.length - 1];
+				}
+			} else {
+				String[] row = new String[0];
+				currentQName = str[str.length - 1];
+				for (String[] cols : firstCols) {
+					row = ArrayUtils.addAll(row, cols);
+				}
+				row = ArrayUtils.addAll(row, str);
+				result.add(row);
+				firstCols.add(str);
+			}
 		}
 		return result;
 	}

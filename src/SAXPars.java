@@ -36,7 +36,7 @@ public class SAXPars extends DefaultHandler {
 				expression += attributes.getValue("name");
 			} else if ("RelatedObjects".equals(qName)) {
 				isRelatedObjects = true;
-			} else if (!isRelatedObjects) {
+			} else if (!isRelatedObjects && !isExpression) {
 				String[] metadata = new String[columnNames.length];
 				for (int i = 0; i < columnNames.length; i++) {
 					if ("qName".equals(columnNames[i]))
@@ -128,7 +128,16 @@ public class SAXPars extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if ("Expression".equals(qName)) {
+		if (!isRelatedObjects && !isExpression) {
+			String[] metadata = new String[columnNames.length];
+			for (int i = 0; i < columnNames.length; i++) {
+				if ("qName".equals(columnNames[i]))
+					metadata[i] = qName;
+			}
+			metadataList.add(metadata);
+		} else if ("RelatedObjects".equals(qName)){
+			isRelatedObjects = false;
+		} else if ("Expression".equals(qName)) {
 			isExpression = false;
 			String exp = StringUtils.trim(expression).replaceAll("\n", " ").replaceAll(" +", " ");
 			String[] metadata = new String[columnNames.length];
@@ -139,16 +148,9 @@ public class SAXPars extends DefaultHandler {
 					metadata[i] = exp;
 			}
 			metadataList.add(metadata);
-		} else if (!isRelatedObjects) {
-			String[] metadata = new String[columnNames.length];
-			for (int i = 0; i < columnNames.length; i++) {
-				if ("qName".equals(columnNames[i]))
-					metadata[i] = qName;
-			}
 			metadataList.add(metadata);
-		} else if ("RelatedObjects".equals(qName)){
-			isRelatedObjects = false;
-		} 
+			expression = "";
+		}
 		/*switch (qName) {
 		case "RefPresentationColumn":
 
