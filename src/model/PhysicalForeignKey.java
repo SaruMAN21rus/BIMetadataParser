@@ -1,5 +1,6 @@
+package model;
 
-public class PhysicalForeignKey implements Metadata {
+public class PhysicalForeignKey {
 
 	private String href;
 	private String name;
