@@ -7,22 +7,25 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-import converters.RefPhysicalColumnConverter;
-import converters.RefPhysicalKeyConverter;
+import converters.RefsConverter;
 
 @XStreamAlias("PhysicalTable")
 public class PhysicalTable {
 
-	@XStreamConverter(RefPhysicalColumnConverter.class)
+	@XStreamConverter(value=RefsConverter.class, types={PhysicalColumn.class})
 	@XStreamAlias("PhysicalColumns")
 	private List<PhysicalColumn> physicalColumns = new ArrayList<>();
 	
 	@XStreamAsAttribute
 	private String name;
 	
-	@XStreamConverter(RefPhysicalKeyConverter.class)
+	@XStreamConverter(value=RefsConverter.class, types={PhysicalKey.class})
 	@XStreamAlias("PhysicalKeys")
 	private List<PhysicalKey> physicalKeys = new ArrayList<>();
+	
+	@XStreamConverter(value=RefsConverter.class, types={PhysicalForeignKey.class})
+	@XStreamAlias("PhysicalForeignKeys")
+	private List<PhysicalForeignKey> physicalForeignKeys = new ArrayList<>();
 
 	public List<PhysicalColumn> getPhysicalColumns() {
 		return physicalColumns;
@@ -46,6 +49,14 @@ public class PhysicalTable {
 
 	public void setPhysicalKeys(List<PhysicalKey> physicalKeys) {
 		this.physicalKeys = physicalKeys;
+	}
+
+	public List<PhysicalForeignKey> getPhysicalForeignKeys() {
+		return physicalForeignKeys;
+	}
+
+	public void setPhysicalForeignKeys(List<PhysicalForeignKey> physicalForeignKeys) {
+		this.physicalForeignKeys = physicalForeignKeys;
 	}
 
 }

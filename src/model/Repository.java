@@ -12,6 +12,15 @@ public class Repository {
 	
 	@XStreamAlias("PhysicalKey")
 	private PhysicalKey physicalKey;
+	
+	@XStreamAlias("PhysicalForeignKey")
+	private PhysicalForeignKey physicalForeignKey;
+	
+	@XStreamAlias("PhysicalComplexJoin")
+	private PhysicalComplexJoin physicalComplexJoin;
+	
+	@XStreamAlias("LogicalColumn")
+	private LogicalColumn logicalColumn;
 
 	public PhysicalColumn getPhysicalColumn() {
 		return physicalColumn;
@@ -35,6 +44,30 @@ public class Repository {
 
 	public void setPhysicalKey(PhysicalKey physicalKey) {
 		this.physicalKey = physicalKey;
+	}
+
+	public PhysicalForeignKey getPhysicalForeignKey() {
+		return physicalForeignKey;
+	}
+
+	public void setPhysicalForeignKey(PhysicalForeignKey physicalForeignKey) {
+		this.physicalForeignKey = physicalForeignKey;
+	}
+
+	public PhysicalComplexJoin getPhysicalComplexJoin() {
+		return physicalComplexJoin;
+	}
+
+	public void setPhysicalComplexJoin(PhysicalComplexJoin physicalComplexJoin) {
+		this.physicalComplexJoin = physicalComplexJoin;
+	}
+
+	public LogicalColumn getLogicalColumn() {
+		return logicalColumn;
+	}
+
+	public void setLogicalColumn(LogicalColumn logicalColumn) {
+		this.logicalColumn = logicalColumn;
 	}
 	
 }

@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import model.LogicalColumn;
+import model.PhysicalComplexJoin;
 import model.PhysicalTable;
 import model.Repository;
 
@@ -35,7 +37,10 @@ public class Main {
 		stream.ignoreUnknownElements();
 		stream.autodetectAnnotations(true);
 		stream.alias("Repository", Repository.class);
+		
 		List<PhysicalTable> physicalTables = new ArrayList<>();
+		List<PhysicalComplexJoin> physicalComplexJoins = new ArrayList<>();
+		List<LogicalColumn> logicalColumns = new ArrayList<>();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
@@ -46,27 +51,58 @@ public class Main {
 		List<String[]> metadataList = saxp.getMetadata(); 
 		for (String[] metadata : metadataList) {
 			if (StringUtils.isNotBlank(metadata[0])) {
-				if ("RefPhysicalTable".equalsIgnoreCase(metadata[1])) {
+				/*if ("RefPhysicalTable".equalsIgnoreCase(metadata[1])) {
 					Repository table = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					physicalTables.add(table.getPhysicalTable());
 				}
+				if ("RefPhysicalComplexJoin".equalsIgnoreCase(metadata[1])) {
+					Repository join = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					physicalComplexJoins.add(join.getPhysicalComplexJoin());
+				}*/
+				if ("RefLogicalColumn".equalsIgnoreCase(metadata[1])) {
+					Repository lc = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					logicalColumns.add(lc.getLogicalColumn());
+					break;
+				}
 			}
 		}
+		System.out.println(logicalColumns.get(0).getMapping().getExpression());
 		try {
-		      InputStream in = Main.class.getResourceAsStream("../PhysicalTables.docx");
-		      IXDocReport report = XDocReportRegistry.getRegistry().loadReport(in,TemplateEngineKind.Velocity);
+			InputStream in = Main.class
+					.getResourceAsStream("../PhysicalTables.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
 
-		      IContext context = report.createContext();
-		      context.put("physicalTables", physicalTables);
+			IContext context = report.createContext();
+			context.put("physicalTables", physicalTables);
 
-		      OutputStream out = new FileOutputStream(new File("DocxProjectWithVelocity_Out.docx"));
-		      report.process(context, out);
+			OutputStream out = new FileOutputStream(new File(
+					"PhysicalTables.docx"));
+			report.process(context, out);
 
-		    } catch (IOException e) {
-		      e.printStackTrace();
-		    } catch (XDocReportException e) {
-		      e.printStackTrace();
-		    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
+		try {
+			InputStream in = Main.class
+					.getResourceAsStream("../PhysicalComplexJoins.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+
+			IContext context = report.createContext();
+			context.put("physicalComplexJoins", physicalComplexJoins);
+
+			OutputStream out = new FileOutputStream(new File(
+					"PhysicalComplexJoins.docx"));
+			report.process(context, out);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
