@@ -43,7 +43,9 @@ public class RefsConverter implements Converter {
 			stream.ignoreUnknownElements();
 			stream.autodetectAnnotations(true);
 			stream.alias("Repository", Repository.class);
-			Repository repository = (Repository)stream.fromXML(new File(arg0.getAttribute("xlink:href").replaceFirst("../../..", "isup_super_cube")));
+			Repository repository = (Repository)stream.fromXML(new File(arg0.getAttribute("xlink:href")
+					.replaceFirst("\\.\\.\\/\\.\\.\\/\\.\\.", "isup_super_cube")
+					.replaceFirst("\\.\\.\\/\\.\\.", "isup_super_cube")));
 			if ("PhysicalColumn".equals(clazz.getSimpleName())) {
 				columns.add(repository.getPhysicalColumn());
 			}
@@ -52,6 +54,12 @@ public class RefsConverter implements Converter {
 			}
 			if ("PhysicalForeignKey".equals(clazz.getSimpleName())) {
 				columns.add(repository.getPhysicalForeignKey());
+			}
+			if ("LogicalColumn".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalColumn());
+			}
+			if ("LogicalTableSource".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalTableSource());
 			}
 			arg0.moveUp();
 		}

@@ -21,6 +21,20 @@ public class Repository {
 	
 	@XStreamAlias("LogicalColumn")
 	private LogicalColumn logicalColumn;
+	
+	@XStreamAlias("LogicalTable")
+	private LogicalTable logicalTable;
+	
+	@XStreamAlias("LogicalTableSource")
+	private LogicalTableSource logicalTableSource;
+
+	public LogicalTableSource getLogicalTableSource() {
+		return logicalTableSource;
+	}
+
+	public void setLogicalTableSource(LogicalTableSource logicalTableSource) {
+		this.logicalTableSource = logicalTableSource;
+	}
 
 	public PhysicalColumn getPhysicalColumn() {
 		return physicalColumn;
@@ -68,6 +82,14 @@ public class Repository {
 
 	public void setLogicalColumn(LogicalColumn logicalColumn) {
 		this.logicalColumn = logicalColumn;
+	}
+
+	public LogicalTable getLogicalTable() {
+		return logicalTable;
+	}
+
+	public void setLogicalTable(LogicalTable logicalTable) {
+		this.logicalTable = logicalTable;
 	}
 	
 }

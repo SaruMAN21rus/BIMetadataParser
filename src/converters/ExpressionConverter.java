@@ -27,7 +27,6 @@ public class ExpressionConverter implements Converter {
 	public Object unmarshal(HierarchicalStreamReader arg0,
 			UnmarshallingContext arg1) {
 		String expression = "";
-		if (arg0.hasMoreChildren()) {
 			while (arg0.hasMoreChildren()) {
 				if (StringUtils.isNotBlank(arg0.getValue())) {
 					expression = expression.concat(arg0.getValue());
@@ -36,8 +35,8 @@ public class ExpressionConverter implements Converter {
 				expression = expression.concat(arg0.getAttribute("name"));
 				arg0.moveUp();
 			}
-		} else {
-			expression = arg0.getValue();
+		if (StringUtils.isNotBlank(arg0.getValue())) {
+			expression = expression.concat(arg0.getValue());
 		}
 		return StringUtils.trim(expression).replaceAll("\n", " ").replaceAll(" +", " ");
 	}

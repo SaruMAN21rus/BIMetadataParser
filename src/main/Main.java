@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import model.LogicalColumn;
+import model.LogicalTable;
 import model.PhysicalComplexJoin;
 import model.PhysicalTable;
 import model.Repository;
@@ -40,7 +40,7 @@ public class Main {
 		
 		List<PhysicalTable> physicalTables = new ArrayList<>();
 		List<PhysicalComplexJoin> physicalComplexJoins = new ArrayList<>();
-		List<LogicalColumn> logicalColumns = new ArrayList<>();
+		List<LogicalTable> logicalTables = new ArrayList<>();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
@@ -59,14 +59,13 @@ public class Main {
 					Repository join = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					physicalComplexJoins.add(join.getPhysicalComplexJoin());
 				}*/
-				if ("RefLogicalColumn".equalsIgnoreCase(metadata[1])) {
-					Repository lc = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
-					logicalColumns.add(lc.getLogicalColumn());
-					break;
+				if ("RefLogicalTable".equalsIgnoreCase(metadata[1])) {
+					Repository logicalTable = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					logicalTables.add(logicalTable.getLogicalTable());
 				}
 			}
 		}
-		System.out.println(logicalColumns.get(0).getMapping().getExpression());
+	
 		try {
 			InputStream in = Main.class
 					.getResourceAsStream("../PhysicalTables.docx");
@@ -96,6 +95,24 @@ public class Main {
 
 			OutputStream out = new FileOutputStream(new File(
 					"PhysicalComplexJoins.docx"));
+			report.process(context, out);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
+		try {
+			InputStream in = Main.class
+					.getResourceAsStream("../LogicalTables.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+
+			IContext context = report.createContext();
+			context.put("logicalTables", logicalTables);
+
+			OutputStream out = new FileOutputStream(new File(
+					"LogicalTables.docx"));
 			report.process(context, out);
 
 		} catch (IOException e) {
