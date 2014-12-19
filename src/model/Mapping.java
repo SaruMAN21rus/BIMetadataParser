@@ -17,6 +17,28 @@ public class Mapping {
 	@XStreamConverter(ExpressionConverter.class)
 	private String expression;
 
+	@XStreamAlias("RefLogicalColumn")
+	private NameAttribute logicalColumn;
+	
+	@XStreamAlias("RefPhysicalTable")
+	private NameAttribute physicalTable;
+
+	public NameAttribute getLogicalColumn() {
+		return logicalColumn;
+	}
+
+	public void setLogicalColumn(NameAttribute logicalColumn) {
+		this.logicalColumn = logicalColumn;
+	}
+	
+	public NameAttribute getPhysicalTable() {
+		return physicalTable;
+	}
+
+	public void setPhysicalTable(NameAttribute physicalTable) {
+		this.physicalTable = physicalTable;
+	}
+
 	public String getSource() {
 		return source;
 	}

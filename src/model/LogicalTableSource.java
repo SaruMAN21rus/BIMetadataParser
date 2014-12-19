@@ -13,7 +13,7 @@ public class LogicalTableSource {
 	private String name;
 	
 	@XStreamAlias("ColumnMappings")
-	private List<ColumnMapping> columnMappings = new ArrayList<>();
+	private List<Mapping> mappings = new ArrayList<>();
 	
 	@XStreamAlias("Joins")
 	private List<Join> joins = new ArrayList<>();
@@ -29,12 +29,12 @@ public class LogicalTableSource {
 		this.name = name;
 	}
 
-	public List<ColumnMapping> getColumnMappings() {
-		return columnMappings;
+	public List<Mapping> getMappings() {
+		return mappings;
 	}
 
-	public void setColumnMappings(List<ColumnMapping> columnMappings) {
-		this.columnMappings = columnMappings;
+	public void setMappings(List<Mapping> mappings) {
+		this.mappings = mappings;
 	}
 
 	public List<Join> getJoins() {
