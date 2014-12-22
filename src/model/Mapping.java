@@ -1,5 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 
@@ -11,7 +16,7 @@ public class Mapping {
 
 	@XStreamAlias("Source")
 	@XStreamConverter(NameListConverter.class)
-	private String source;
+	private List<String> source = new ArrayList<>();
 	
 	@XStreamAlias("Expression")
 	@XStreamConverter(ExpressionConverter.class)
@@ -40,11 +45,7 @@ public class Mapping {
 	}
 
 	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
+		return StringUtils.join(source, ", ");
 	}
 
 	public String getExpression() {

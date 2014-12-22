@@ -22,6 +22,22 @@ public class LogicalTable {
 	@XStreamConverter(value=RefsConverter.class, types={LogicalTableSource.class})
 	@XStreamAlias("LogicalTableSources")
 	private List<LogicalTableSource> sources = new ArrayList<>();
+	
+	@XStreamConverter(value=RefsConverter.class, types={LogicalKey.class})
+	@XStreamAlias("LogicalKeys")
+	private List<LogicalKey> logicalKeys = new ArrayList<>();
+	
+	@XStreamConverter(value=RefsConverter.class, types={LogicalForeignKey.class})
+	@XStreamAlias("LogicalForeignKeys")
+	private List<LogicalForeignKey> logicalForeignKeys = new ArrayList<>();
+
+	public List<LogicalForeignKey> getLogicalForeignKeys() {
+		return logicalForeignKeys;
+	}
+
+	public void setLogicalForeignKeys(List<LogicalForeignKey> logicalForeignKeys) {
+		this.logicalForeignKeys = logicalForeignKeys;
+	}
 
 	public List<LogicalColumn> getLogicalColumns() {
 		return logicalColumns;
@@ -45,6 +61,14 @@ public class LogicalTable {
 
 	public void setSources(List<LogicalTableSource> sources) {
 		this.sources = sources;
+	}
+
+	public List<LogicalKey> getLogicalKeys() {
+		return logicalKeys;
+	}
+
+	public void setLogicalKeys(List<LogicalKey> logicalKeys) {
+		this.logicalKeys = logicalKeys;
 	}
 	
 }

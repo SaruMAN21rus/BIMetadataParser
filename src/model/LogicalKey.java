@@ -11,21 +11,21 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 import converters.NameListConverter;
 
-@XStreamAlias("PhysicalKey")
-public class PhysicalKey {
+@XStreamAlias("LogicalKey")
+public class LogicalKey {
 
 	@XStreamConverter(NameListConverter.class)
-	@XStreamAlias("PhysicalColumns")
-	private List<String> physicalColumns = new ArrayList<>();
+	@XStreamAlias("LogicalColumns")
+	private List<String> logicalColumns = new ArrayList<>();
 	
 	@XStreamAsAttribute
 	private String name;
 	
 	@XStreamAsAttribute
 	private boolean primary;
-	
-	public String getPhysicalColumns() {
-		return StringUtils.join(physicalColumns, ", ");
+
+	public String getLogicalColumns() {
+		return StringUtils.join(logicalColumns, ", ");
 	}
 
 	public String getName() {

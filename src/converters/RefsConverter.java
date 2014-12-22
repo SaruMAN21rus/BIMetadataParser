@@ -61,6 +61,18 @@ public class RefsConverter implements Converter {
 			if ("LogicalTableSource".equals(clazz.getSimpleName())) {
 				columns.add(repository.getLogicalTableSource());
 			}
+			if ("LogicalKey".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalKey());
+			}
+			if ("LogicalForeignKey".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalForeignKey());
+			}
+			if ("Dimension".equals(clazz.getSimpleName())) {
+				columns.add(repository.getDimension());
+			}
+			if ("LogicalLevel".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalLevel());
+			}
 			arg0.moveUp();
 		}
 		return columns;

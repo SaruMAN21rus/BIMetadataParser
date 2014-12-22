@@ -3,8 +3,6 @@ package converters;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
@@ -16,7 +14,7 @@ public class NameListConverter implements Converter {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class type) {
-		return type.equals(String.class);
+		return type.equals(ArrayList.class);
 	}
 
 	@Override
@@ -35,7 +33,7 @@ public class NameListConverter implements Converter {
 			names.add(reader.getAttribute("name"));
 			reader.moveUp();
 		}
-		return StringUtils.join(names, ", ");
+		return names;
 	}
 
 }

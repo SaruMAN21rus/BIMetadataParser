@@ -27,6 +27,18 @@ public class Repository {
 	
 	@XStreamAlias("LogicalTableSource")
 	private LogicalTableSource logicalTableSource;
+	
+	@XStreamAlias("LogicalKey")
+	private LogicalKey logicalKey;
+	
+	@XStreamAlias("LogicalForeignKey")
+	private LogicalForeignKey logicalForeignKey;
+
+	@XStreamAlias("Dimension")
+	private Dimension dimension;
+	
+	@XStreamAlias("LogicalLevel")
+	private LogicalLevel logicalLevel;
 
 	public LogicalTableSource getLogicalTableSource() {
 		return logicalTableSource;
@@ -90,6 +102,38 @@ public class Repository {
 
 	public void setLogicalTable(LogicalTable logicalTable) {
 		this.logicalTable = logicalTable;
+	}
+
+	public LogicalKey getLogicalKey() {
+		return logicalKey;
+	}
+
+	public void setLogicalKey(LogicalKey logicalKey) {
+		this.logicalKey = logicalKey;
+	}
+
+	public LogicalForeignKey getLogicalForeignKey() {
+		return logicalForeignKey;
+	}
+
+	public void setLogicalForeignKey(LogicalForeignKey logicalForeignKey) {
+		this.logicalForeignKey = logicalForeignKey;
+	}
+
+	public Dimension getDimension() {
+		return dimension;
+	}
+
+	public void setDimension(Dimension dimension) {
+		this.dimension = dimension;
+	}
+
+	public LogicalLevel getLogicalLevel() {
+		return logicalLevel;
+	}
+
+	public void setLogicalLevel(LogicalLevel logicalLevel) {
+		this.logicalLevel = logicalLevel;
 	}
 	
 }

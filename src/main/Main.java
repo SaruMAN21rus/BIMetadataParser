@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import model.Dimension;
 import model.LogicalTable;
 import model.PhysicalComplexJoin;
 import model.PhysicalTable;
@@ -41,6 +42,7 @@ public class Main {
 		List<PhysicalTable> physicalTables = new ArrayList<>();
 		List<PhysicalComplexJoin> physicalComplexJoins = new ArrayList<>();
 		List<LogicalTable> logicalTables = new ArrayList<>();
+		List<Dimension> dimensions = new ArrayList<>();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
@@ -58,10 +60,14 @@ public class Main {
 				if ("RefPhysicalComplexJoin".equalsIgnoreCase(metadata[1])) {
 					Repository join = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					physicalComplexJoins.add(join.getPhysicalComplexJoin());
-				}*/
+				}
 				if ("RefLogicalTable".equalsIgnoreCase(metadata[1])) {
 					Repository logicalTable = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					logicalTables.add(logicalTable.getLogicalTable());
+				}*/
+				if ("RefDimension".equalsIgnoreCase(metadata[1])) {
+					Repository dimension = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					dimensions.add(dimension.getDimension());
 				}
 			}
 		}
@@ -113,6 +119,24 @@ public class Main {
 
 			OutputStream out = new FileOutputStream(new File(
 					"LogicalTables.docx"));
+			report.process(context, out);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
+		try {
+			InputStream in = Main.class
+					.getResourceAsStream("../Dimensions.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+
+			IContext context = report.createContext();
+			context.put("dimensions", dimensions);
+
+			OutputStream out = new FileOutputStream(new File(
+					"Dimensions.docx"));
 			report.process(context, out);
 
 		} catch (IOException e) {

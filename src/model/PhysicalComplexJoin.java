@@ -1,5 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
@@ -15,7 +20,7 @@ public class PhysicalComplexJoin {
 	
 	@XStreamConverter(NameListConverter.class)
 	@XStreamAlias("PhysicalTables")
-	private String physicalTables;
+	private List<String> physicalTables = new ArrayList<>();
 	
 	@XStreamAlias("Expression")
 	@XStreamConverter(ExpressionConverter.class)
@@ -30,11 +35,7 @@ public class PhysicalComplexJoin {
 	}
 
 	public String getPhysicalTables() {
-		return physicalTables;
-	}
-
-	public void setPhysicalTables(String physicalTables) {
-		this.physicalTables = physicalTables;
+		return StringUtils.join(physicalTables, ", ");
 	}
 
 	public String getExpression() {
