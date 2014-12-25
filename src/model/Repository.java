@@ -39,6 +39,13 @@ public class Repository {
 	
 	@XStreamAlias("LogicalLevel")
 	private LogicalLevel logicalLevel;
+	
+	@XStreamAlias("LogicalComplexJoin")
+	private LogicalComplexJoin logicalComplexJoin;
+	
+	@XStreamAlias("PresentationTable")
+	private PresentationTable presentationTable;
+
 
 	public LogicalTableSource getLogicalTableSource() {
 		return logicalTableSource;
@@ -134,6 +141,22 @@ public class Repository {
 
 	public void setLogicalLevel(LogicalLevel logicalLevel) {
 		this.logicalLevel = logicalLevel;
+	}
+
+	public LogicalComplexJoin getLogicalComplexJoin() {
+		return logicalComplexJoin;
+	}
+
+	public void setLogicalComplexJoin(LogicalComplexJoin logicalComplexJoin) {
+		this.logicalComplexJoin = logicalComplexJoin;
+	}
+
+	public PresentationTable getPresentationTable() {
+		return presentationTable;
+	}
+
+	public void setPresentationTable(PresentationTable presentationTable) {
+		this.presentationTable = presentationTable;
 	}
 	
 }

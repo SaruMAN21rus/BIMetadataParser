@@ -73,6 +73,9 @@ public class RefsConverter implements Converter {
 			if ("LogicalLevel".equals(clazz.getSimpleName())) {
 				columns.add(repository.getLogicalLevel());
 			}
+			if ("LogicalComplexJoin".equals(clazz.getSimpleName())) {
+				columns.add(repository.getLogicalComplexJoin());
+			}
 			arg0.moveUp();
 		}
 		return columns;

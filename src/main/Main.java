@@ -13,9 +13,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import model.Dimension;
+import model.LogicalComplexJoin;
 import model.LogicalTable;
 import model.PhysicalComplexJoin;
 import model.PhysicalTable;
+import model.PresentationTable;
 import model.Repository;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +45,8 @@ public class Main {
 		List<PhysicalComplexJoin> physicalComplexJoins = new ArrayList<>();
 		List<LogicalTable> logicalTables = new ArrayList<>();
 		List<Dimension> dimensions = new ArrayList<>();
+		List<LogicalComplexJoin> logicalComplexJoins = new ArrayList<>();
+		List<PresentationTable> presentationTables = new ArrayList<>();
 		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser parser = factory.newSAXParser();
@@ -53,22 +57,30 @@ public class Main {
 		List<String[]> metadataList = saxp.getMetadata(); 
 		for (String[] metadata : metadataList) {
 			if (StringUtils.isNotBlank(metadata[0])) {
-				/*if ("RefPhysicalTable".equalsIgnoreCase(metadata[1])) {
+				if ("RefPhysicalTable".equalsIgnoreCase(metadata[1])) {
 					Repository table = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					physicalTables.add(table.getPhysicalTable());
 				}
-				if ("RefPhysicalComplexJoin".equalsIgnoreCase(metadata[1])) {
+				/*if ("RefPhysicalComplexJoin".equalsIgnoreCase(metadata[1])) {
 					Repository join = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					physicalComplexJoins.add(join.getPhysicalComplexJoin());
 				}
 				if ("RefLogicalTable".equalsIgnoreCase(metadata[1])) {
 					Repository logicalTable = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					logicalTables.add(logicalTable.getLogicalTable());
-				}*/
+				}
 				if ("RefDimension".equalsIgnoreCase(metadata[1])) {
 					Repository dimension = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
 					dimensions.add(dimension.getDimension());
 				}
+				if ("RefLogicalComplexJoin".equalsIgnoreCase(metadata[1])) {
+					Repository logicalComplexJoin = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					logicalComplexJoins.add(logicalComplexJoin.getLogicalComplexJoin());
+				}
+				if ("RefPresentationTable".equalsIgnoreCase(metadata[1])) {
+					Repository presentationTable = (Repository)stream.fromXML(new File(metadata[0].replaceFirst(".","isup_super_cube")));
+					presentationTables.add(presentationTable.getPresentationTable());
+				}*/
 			}
 		}
 	
@@ -137,6 +149,42 @@ public class Main {
 
 			OutputStream out = new FileOutputStream(new File(
 					"Dimensions.docx"));
+			report.process(context, out);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
+		try {
+			InputStream in = Main.class
+					.getResourceAsStream("../LogicalComplexJoins.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+
+			IContext context = report.createContext();
+			context.put("logicalComplexJoins", logicalComplexJoins);
+
+			OutputStream out = new FileOutputStream(new File(
+					"LogicalComplexJoins.docx"));
+			report.process(context, out);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XDocReportException e) {
+			e.printStackTrace();
+		}
+		try {
+			InputStream in = Main.class
+					.getResourceAsStream("../PresentationTables.docx");
+			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
+					in, TemplateEngineKind.Velocity);
+
+			IContext context = report.createContext();
+			context.put("presentationTables", presentationTables);
+
+			OutputStream out = new FileOutputStream(new File(
+					"PresentationTables.docx"));
 			report.process(context, out);
 
 		} catch (IOException e) {

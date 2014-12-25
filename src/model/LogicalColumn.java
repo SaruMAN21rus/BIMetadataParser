@@ -24,6 +24,9 @@ public class LogicalColumn {
 	@XStreamAlias("Aggregations")
 	private List<Aggregation> aggregations = new ArrayList<>();
 
+	@XStreamAlias("Containers")
+	private Containers containers;
+	
 	public String getName() {
 		return name;
 	}
@@ -62,6 +65,14 @@ public class LogicalColumn {
 
 	public void setAggregations(List<Aggregation> aggregations) {
 		this.aggregations = aggregations;
+	}
+
+	public Containers getContainers() {
+		return containers;
+	}
+
+	public void setContainers(Containers containers) {
+		this.containers = containers;
 	}
 	
 }
